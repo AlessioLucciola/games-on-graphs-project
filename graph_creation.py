@@ -8,6 +8,12 @@ class Graph():
         super(Graph, self).__init__
         self.graph = nx.DiGraph()
 
+        if (n_nodes < 1):
+            raise ValueError("The number of nodes must be a positive number")
+        
+        if (edge_probability < 0 or edge_probability > 1):
+            raise ValueError("The edge probability must be a value between 0 and 1")
+
         # Create the nodes
         for i in range(n_nodes):
             self.graph.add_node(i)
@@ -39,12 +45,15 @@ class Graph():
         nx.draw(self.graph, pos, with_labels=True, node_color=node_colors)
         plt.show()
     
-    def return_winning_nodes(self):
+    def get_winning_nodes(self):
         return [n for n in self.graph.nodes if self.graph.nodes[n]['winning']]
     
     def is_winning(self, n):
         return False if (n > self.n_nodes or not self.graph.nodes[n]['winning']) else True
-
+    
+    def get_predecessors(self, node):
+        return list(self.graph.predecessors(node))
+    
     def return_graph(self):
         return self.graph
     
