@@ -35,6 +35,17 @@ class Graph():
                 attributes[n] = {'winning': False}
         nx.set_node_attributes(self.graph, attributes)
 
+        # Split nodes between the two players
+        player0_nodes = [n for n in winning_nodes]
+        while len(player0_nodes) < n_nodes/2:
+            num = random.randint(0, n_nodes)
+            if num not in player0_nodes:
+                player0_nodes.append(num)
+        player1_nodes = [node for node in range(10) if node not in player0_nodes]
+
+        print("Nodes of player 0: " + str(player0_nodes))
+        print("Nodes of player 1: " + str(player1_nodes))
+
         # Color the winning node in the graph
         node_colors = {node: 'red' if node in winning_nodes else 'blue' for node in self.graph.nodes}
         nx.set_node_attributes(self.graph, node_colors, 'color')
