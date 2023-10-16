@@ -36,24 +36,30 @@ class Graph():
         nx.set_node_attributes(self.graph, attributes)
 
         # Split nodes between the two players
-        player0_nodes = [n for n in winning_nodes]
-        while len(player0_nodes) < n_nodes/2:
-            num = random.randint(0, n_nodes)
-            if num not in player0_nodes:
-                player0_nodes.append(num)
-        player1_nodes = [node for node in range(10) if node not in player0_nodes]
+        self.player0_nodes = [n for n in winning_nodes]
+        while len(self.player0_nodes) < n_nodes/2:
+            num = random.randint(0, n_nodes-1)
+            if num not in self.player0_nodes:
+                self.player0_nodes.append(num)
+        self.player1_nodes = [node for node in range(n_nodes) if node not in self.player0_nodes]
 
-        print("Nodes of player 0: " + str(player0_nodes))
-        print("Nodes of player 1: " + str(player1_nodes))
+        print("Nodes of player 0: " + str(self.player0_nodes))
+        print("Nodes of player 1: " + str(self.player1_nodes))
 
         # Color the winning node in the graph
-        node_colors = {node: 'red' if node in winning_nodes else 'blue' for node in self.graph.nodes}
+        node_colors = {node: 'red' if node in winning_nodes else 'blue' for node in self.player0_nodes}
         nx.set_node_attributes(self.graph, node_colors, 'color')
+
+        # Create a dictionary for labeling the nodes with their numbers
+        self.node_labels = {node: str(node) for node in self.graph.nodes}
 
     def visualize_graph(self):
         pos = nx.spring_layout(self.graph)
-        node_colors = [self.graph.nodes[node]['color'] if 'color' in self.graph.nodes[node] else 'lightblue' for node in self.graph.nodes]
-        nx.draw(self.graph, pos, with_labels=True, node_color=node_colors)
+        node_colors = [self.graph.nodes[node]['color'] if 'color' in self.graph.nodes[node] else 'blue' for node in self.player0_nodes]
+        nx.draw_networkx_nodes(self.graph, pos, nodelist=self.player0_nodes, node_shape='s', node_color=node_colors, label='player 0')
+        nx.draw_networkx_nodes(self.graph, pos, nodelist=self.player1_nodes, node_color='blue', label='player 1')
+        nx.draw_networkx_labels(self.graph, pos, labels=self.node_labels)
+        nx.draw_networkx_edges(self.graph, pos)
         plt.show()
     
     def get_winning_nodes(self):
