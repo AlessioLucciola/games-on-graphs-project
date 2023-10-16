@@ -67,11 +67,23 @@ class Graph():
     def get_winning_nodes(self):
         return [n for n in self.graph.nodes if self.graph.nodes[n]['winning']]
     
-    def is_winning(self, n):
+    def is_winning_node(self, n):
         return False if (n > self.n_nodes or not self.graph.nodes[n]['winning']) else True
     
     def get_predecessors(self, node):
         return list(self.graph.predecessors(node))
+    
+    def get_force(self):
+        force = self.get_winning_nodes()
+        updated_force = []
+
+        while updated_force != force:
+            force = updated_force.copy()
+            for node in self.player0_nodes:
+                if node in force:
+                    updated_force.update(nx.attractor(self.graph, [node], kind='player', players=[0]))
+
+        return force
     
     def return_graph(self):
         return self.graph

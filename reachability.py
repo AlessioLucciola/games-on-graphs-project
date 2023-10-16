@@ -38,7 +38,7 @@ def solve_reachability(G, W):
             depth += 1
             for _ in range(len(queue)): 
                 current_node = queue.popleft() #Retrieve the first element from the queue
-                for prec in G.predecessors(current_node): #For all predecessors of that element
+                for prec in G.get_forces(current_node): #For all predecessors of that element
                     if prec not in visited: #If it is not visisted yet
                         queue.append(prec)
                         visited.add(prec)
