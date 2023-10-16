@@ -56,10 +56,12 @@ class Graph():
     def visualize_graph(self):
         pos = nx.spring_layout(self.graph)
         node_colors = [self.graph.nodes[node]['color'] if 'color' in self.graph.nodes[node] else 'blue' for node in self.player0_nodes]
-        nx.draw_networkx_nodes(self.graph, pos, nodelist=self.player0_nodes, node_shape='s', node_color=node_colors, label='player 0')
-        nx.draw_networkx_nodes(self.graph, pos, nodelist=self.player1_nodes, node_color='blue', label='player 1')
+        nx.draw_networkx_nodes(self.graph, pos, nodelist=self.player0_nodes, node_shape='s', node_color=node_colors, label='Player 0 (red if winning node, blue otherwise)')
+        nx.draw_networkx_nodes(self.graph, pos, nodelist=self.player1_nodes, node_color='blue', label='Player 1')
         nx.draw_networkx_labels(self.graph, pos, labels=self.node_labels)
         nx.draw_networkx_edges(self.graph, pos)
+
+        #plt.legend(loc="lower center", bbox_to_anchor=(0.5, 0), title="Legend")
         plt.show()
     
     def get_winning_nodes(self):
