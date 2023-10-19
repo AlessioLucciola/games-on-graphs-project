@@ -26,7 +26,7 @@ class Graph():
         
         # Define the winning nodes
         n_winning = math.floor(n_nodes/5) # Add 2 winning nodes each 5 nodes
-        winning_nodes = random.sample(range(n_nodes+1), n_winning)
+        winning_nodes = random.sample(range(n_nodes), n_winning)
         attributes = {}
         for n in self.graph.nodes:
             if n in winning_nodes:
@@ -72,6 +72,9 @@ class Graph():
     
     def get_predecessors(self, node):
         return list(self.graph.predecessors(node))
+    
+    def get_successors(self, node):
+        return list(self.graph.successors(node))
     
     def return_graph(self):
         return self.graph
