@@ -1,10 +1,10 @@
 import graph_creation as gc
-from collections import deque
+from collections import deque, defaultdict
 
 def reachability_game(n_nodes=10):
     G = gc.Graph(n_nodes)
     W = G.get_winning_nodes()
-    r = solve_reachability(G.graph, W)
+    r = solve_reachability(G, W)
     print("Winning nodes: " + str(W))
     print("Ranks: " + str(r))
     G.visualize_graph()
@@ -22,10 +22,11 @@ def reachability_game(n_nodes=10):
 def solve_reachability(G, W):
     #Initialize distances and visited flags
     rank = {}
-    for node in G.nodes():
+    for node in G.graph.nodes():
         #Terminal nodes have a rank of 0, the others are initialized with infinity
         rank[node] = 0 if node in W else float('inf')
 
+    '''
     #For each terminal node
     for terminal_node in W:
         visited = set()
@@ -46,5 +47,27 @@ def solve_reachability(G, W):
                             rank[prec] = depth
 
     return rank
+    '''
+    queue = deque()
+    win_region = [w for w in W]
+
+    for w in W:
+        queue.append(w)
+    
+        while queue:
+            n = queue.popleft() #Retrieve the first element from the queue
+            for pred in G.get_predecessors(n):
+                print(str(n) + " " + str(pred))
+                if pred in G.player0_nodes:
+                    if (pred not in win_region):
+                        queue.append(pred)
+                        win_region.append(pred)
+                else:
+                    if (pred not in win_region) and all(succ in win_region for succ in G.get_successors(pred)): # To do: The second condition may not be valid at first so the node can be discarded if it is eventually in the winning region 
+                        queue.append(pred)
+                        win_region.append(pred)
+    
+    print("Winning region: " + str(win_region))
+
 
 reachability_game()

@@ -4,7 +4,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 class Graph():
-    def __init__(self, n_nodes = 10, edge_probability = 0.3):
+    def __init__(self, n_nodes = 10, edge_probability = 0.5):
         super(Graph, self).__init__
         self.graph = nx.DiGraph()
 
@@ -18,10 +18,15 @@ class Graph():
         for i in range(n_nodes):
             self.graph.add_node(i)
 
-        # Add the edges randomly
+        # Add at least an edge that leaves from each node
+        for i in range(1, n_nodes):
+            random_node = random.choice(range(i))
+            self.graph.add_edge(i, random_node)
+
+        # Add the other edges randomly
         for i in range(n_nodes):
             for j in range(i+1, n_nodes):
-                if random.random() < edge_probability:
+                if random.random() < edge_probability and (not self.graph.has_edge(i, j) and not self.graph.has_edge(j, i)):
                     self.graph.add_edge(i, j)
         
         # Define the winning nodes
