@@ -81,6 +81,3 @@ class Graph():
     def get_successors(self, node):
         return list(self.graph.successors(node))
     
-    def return_graph(self):
-        return self.graph
-    

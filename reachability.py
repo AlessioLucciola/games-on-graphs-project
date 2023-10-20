@@ -1,73 +1,53 @@
 import graph_creation as gc
-from collections import deque, defaultdict
+from collections import deque
 
 def reachability_game(n_nodes=10):
     G = gc.Graph(n_nodes)
     W = G.get_winning_nodes()
-    r = solve_reachability(G, W)
     print("Winning nodes: " + str(W))
-    print("Ranks: " + str(r))
-    G.visualize_graph()
+    strategy, win_region = solve_reachability(G, W)
+    #G.visualize_graph()
 
 """
     This function takes a direct graph and a set terminal nodes and solve reachability games.
-    It measure how many nodes can be reached from a given node within a certain number of steps.
 
-    :param G: A direct graph
-    :param W: A (non-empty) set of terminal (winning) nodes
-    :return: A dictionary of nodes. The key is the id of the node, the value represents it rank that
-            is the number of steps that are needed to reach a winning node. If 0 the node is a winning one.
-            If infinity, it is not possible to reach a winning one from that specific node.
+    :param G: A direct graph.
+    :param W: A (non-empty) set of terminal (winning) nodes.
+    :return: strategy: A dictionary where the key is the current node and the value is a successor that,
+                        if chosen, allows player 0 to stay in the winning region.
+    :return: win_region: A list of nodes from which player 0 can force player 1 to a winning node.
 """ 
 def solve_reachability(G, W):
-    #Initialize distances and visited flags
-    rank = {}
-    for node in G.graph.nodes():
-        #Terminal nodes have a rank of 0, the others are initialized with infinity
-        rank[node] = 0 if node in W else float('inf')
+    queue = deque() # Add nodes to be visited yet at execution time
+    strategy = {} # Keep track of a possible strategy for player 0 to reach a winning node
+    win_region = [w for w in W] # Immediatly set the winning node of player 0 in the winning region
+    lose_region = [] # Initialize the losing region as an empty list
 
-    '''
-    #For each terminal node
-    for terminal_node in W:
-        visited = set()
-        queue = deque()
-        queue.append(terminal_node)
-        visited.add(terminal_node)
-        depth = 0
-
-        while queue: #Recursive approach that implement a depth-first search (DFS)
-            depth += 1
-            for _ in range(len(queue)): 
-                current_node = queue.popleft() #Retrieve the first element from the queue
-                for prec in G.predecessors(current_node): #For all predecessors of that element
-                    if prec not in visited: #If it is not visisted yet
-                        queue.append(prec)
-                        visited.add(prec)
-                        if depth < rank[prec]: #Update the rank only if the current depth is smaller than the one already registered
-                            rank[prec] = depth
-
-    return rank
-    '''
-    queue = deque()
-    win_region = [w for w in W]
-
-    for w in W:
-        queue.append(w)
+    for w in W: # For each winnining node 
+        queue.append(w) # Add a winning node to the queue
     
         while queue:
             n = queue.popleft() #Retrieve the first element from the queue
-            for pred in G.get_predecessors(n):
-                print(str(n) + " " + str(pred))
+            for pred in G.get_predecessors(n): # If the predecessor is of player 0 then -> add pred in win_region X
+                #print(str(n) + " " + str(pred))
                 if pred in G.player0_nodes:
                     if (pred not in win_region):
                         queue.append(pred)
                         win_region.append(pred)
-                else:
-                    if (pred not in win_region) and all(succ in win_region for succ in G.get_successors(pred)): # To do: The second condition may not be valid at first so the node can be discarded if it is eventually in the winning region 
+                        strategy[pred] = n
+                else: # If the predecessor is of player 1 (opponent) and all the successors are in the win_region X then -> add pred in win_region X
+                    if (pred not in win_region) and all(succ in win_region for succ in G.get_successors(pred)):
                         queue.append(pred)
                         win_region.append(pred)
+                        strategy[pred] = n
     
+    lose_region = [n not in win_region for n in G.graph.nodes]
+
+    print("Strategy: " + str(strategy))
     print("Winning region: " + str(win_region))
+    print("Losing region:" + str(lose_region))
+
+    return(strategy, win_region)
 
 
 reachability_game()
