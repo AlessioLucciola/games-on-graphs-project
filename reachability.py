@@ -41,11 +41,11 @@ def solve_reachability(G, W):
                         win_region.append(pred)
                         strategy[pred] = n
     
-    lose_region = [n not in win_region for n in G.graph.nodes]
+    lose_region = [node for node in range(len(G.graph.nodes)) if node not in win_region]
 
     print("Strategy: " + str(strategy))
     print("Winning region: " + str(win_region))
-    print("Losing region:" + str(lose_region))
+    print("Losing region: " + str(lose_region))
 
     return(strategy, win_region)
 
