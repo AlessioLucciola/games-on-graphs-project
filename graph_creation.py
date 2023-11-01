@@ -29,6 +29,7 @@ class Graph():
                 if random.random() < edge_probability and (not self.graph.has_edge(i, j) and not self.graph.has_edge(j, i)):
                     self.graph.add_edge(i, j)
         
+        '''
         # Define the winning nodes
         n_winning = math.floor(n_nodes/5) # Add 2 winning nodes each 5 nodes
         winning_nodes = random.sample(range(n_nodes), n_winning)
@@ -47,6 +48,25 @@ class Graph():
             if num not in self.player0_nodes:
                 self.player0_nodes.append(num)
         self.player1_nodes = [node for node in range(n_nodes) if node not in self.player0_nodes]
+
+        print("Nodes of player 0: " + str(self.player0_nodes))
+        print("Nodes of player 1: " + str(self.player1_nodes))
+        '''
+
+        # Split nodes between the two players
+        self.player0_nodes = [node for node in range(n_nodes) if node % 2 == 0]
+        self.player1_nodes = [node for node in range(n_nodes) if node not in self.player0_nodes]
+
+        # Define the winning nodes
+        n_winning = math.floor(n_nodes/5) # Add 2 winning nodes each 5 nodes
+        winning_nodes = random.sample(self.player0_nodes, n_winning)
+        attributes = {}
+        for n in self.graph.nodes:
+            if n in winning_nodes:
+                attributes[n] = {'winning': True}
+            else:
+                attributes[n] = {'winning': False}
+        nx.set_node_attributes(self.graph, attributes)
 
         print("Nodes of player 0: " + str(self.player0_nodes))
         print("Nodes of player 1: " + str(self.player1_nodes))
