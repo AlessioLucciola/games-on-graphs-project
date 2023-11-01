@@ -3,13 +3,16 @@ import networkx as nx
 
 def parity_game(n_nodes=10):
     G = gc.Graph(n_nodes) # Create graph
-    print(solve_parity(G))
-    #G.visualize_graph()
-'''
-def solve_parity(G):
-    parities = {node: node for node in G.graph.nodes}
+    strategy_si = solve_parity_strategy_improvement(G)
+    print("Winning regions strategy improvement: " + str(strategy_si))
+    strategy_zi = solve_parity_zielonka(G)
+    print("Winning strategy Zielonka: " + str(strategy_zi))
+    G.visualize_graph()
+
+def solve_parity_strategy_improvement(G):
+    parities = {node: node for node in G.graph.nodes} # Assign a priority to each node
+    strategy = {node: -1 for node in G.graph.nodes} # Initialize the strategy of each node with -1
     player = 0
-    strategy = {}
 
     while True: # Running until the parities change
         has_changed = False
@@ -27,15 +30,46 @@ def solve_parity(G):
                     parities[node] = node_parity
                     has_changed = True
 
-        player = 1 if player == 0 else 0
+        player = 1 if player == 0 else 0 # Change player at each iteration
 
         if not has_changed:
             break
 
-    print(strategy)
-'''
+    return strategy
 
-def solve_parity(G):
+def solve_parity_zielonka(G):
+    Gc = G.graph.copy()
+    priorities = {node: 0 if node in G.player0_nodes else 1 for node in G.graph.nodes} # Assign a priority to each node
+    strategy = {node: -1 for node in G.graph.nodes} # Initialize the strategy of each node with -1
+    components = []
+
+    while len(Gc.nodes) > 0:
+        highest_priority = max(priorities.values())
+        component = dfs(Gc, highest_priority, [], [])
+        components.append(component)
+        for n in component:
+            Gc.remove_node(n)
+
+        for component in components:
+            subgame = G.graph.subgraph(component)
+            for n in subgame.nodes():
+                if priorities[n] % 2 == 0:
+                    strategy[n] = 0
+                else:
+                    strategy[n] = 1
+    return strategy
+
+
+def dfs(G, node, component, visited):
+    if node not in visited: visited.append(node)
+    if node not in component: component.append(node)
+    for successor in G.successors(node):
+        if successor not in visited:
+            dfs(G, successor, component, visited)
+    return component
+
+'''
+def solve_parity_zielonka(G):
     priority = [0 for _ in range(len(G.graph.nodes))]
     winner = [0 for _ in range(len(G.graph.nodes))]
 
@@ -56,55 +90,6 @@ def solve_parity(G):
                 priority[node] = min_priority
 
     #return winner
-
-'''
-def solve_parity(G):
-    # Priority Promotion
-    priorities = promote_priorities(G)
-    
-    # Strategy Improvement
-    strategy = {}
-    for node in G.graph.nodes:
-        if node in G.player0_nodes:
-            strategy[node] = assign_strategy(node, G, priorities)
-
-    print(strategy)
-    
-    # Check Winning Conditions
-    if all(node in strategy for node in G.graph.nodes) and all(priorities[node] % 2 != 0 for node in strategy):
-        return "Player 1 wins"
-    if 0 in strategy.values():
-        return "Player 0 wins"
-    return "No winner yet"
-
-def promote_priorities(G):
-    priorities = {node: float('inf') for node in G.graph.nodes}
-    sorted_priorities = sorted(set(nx.get_node_attributes(G.graph, 'priority').values()), reverse=True)
-
-    for priority in sorted_priorities:
-        nodes_to_promote = [node for node in G.graph.nodes if G.graph.nodes[node]['priority'] == priority]
-        for node in nodes_to_promote:
-            if node in G.player0_nodes:
-                successors = list(G.graph.successors(node))
-                if successors:
-                    min_successor_priority = min([priorities[successor] for successor in successors])
-                    priorities[node] = min(priorities[node], min_successor_priority)
-            else:
-                successors = list(G.graph.successors(node))
-                if successors:
-                    max_successor_priority = max([priorities[successor] for successor in successors])
-                    priorities[node] = max(priorities[node], max_successor_priority)
-        for node in nodes_to_promote:
-            G.graph.remove_node(node)
-    
-    return priorities
-
-def assign_strategy(node, G, priorities):
-    successors = list(G.graph.successors(node))
-    for successor in successors:
-        if successor in G.player0_nodes and priorities[successor] < priorities[node]:
-            return successor
-    return None
 '''
 
 parity_game()
