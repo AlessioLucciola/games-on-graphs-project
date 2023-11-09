@@ -3,16 +3,22 @@ import networkx as nx
 
 def parity_game(n_nodes=15):
     G = gc.Graph(n_nodes, mode='parity') # Create graph
+    G.visualize_graph()
     strategy_si = solve_parity_strategy_improvement(G)
     print("Winning regions strategy improvement: " + str(strategy_si))
+    strategy_sip = solve_parity_strategy_improvement_par(G)
+    print("Winning regions strategy improvement (parallelized): " + str(strategy_sip))
     strategy_zi = solve_parity_zielonka(G)
     print("Winning strategy Zielonka: " + str(strategy_zi))
-    G.visualize_graph()
+    #G.visualize_graph()
 
-    diff = find_differences(strategy_si, strategy_zi)
-    print("Differences among the strategies: " + str(diff))
+    diff1 = find_differences(strategy_si, strategy_sip)
+    print("Differences among the strategy improvement approches: " + str(diff1))
+    diff2 = find_differences(strategy_si, strategy_zi)
+    print("Differences among the standard strategy improvement and zielonka: " + str(diff2))
+    diff3 = find_differences(strategy_si, strategy_sip)
+    print("Differences among the zielonka and the strategy improvement parallelized: " + str(diff3))
 
-#TO DO: TRY TO PARALELIZE THE PLAYER'S STRATEGY IMPROVEMENT (both player could choose a better strategy at each iteration)
 def solve_parity_strategy_improvement(G):
     parities = {node: node for node in G.graph.nodes} # Assign a priority to each node
     strategy = {node: -1 for node in G.graph.nodes} # Initialize the strategy of each node with -1
@@ -27,14 +33,48 @@ def solve_parity_strategy_improvement(G):
                 successor_parities = [parities[successor] for successor in successors] # Calculate the parity of the successors
                 node_parity = max(successor_parities) if player == 0 else min(successor_parities) # Select the max parity
 
+                # If the parity of the node is different from the max successor parity update the parity of the node
+                if parities[node] != node_parity:
+                    strategy[node] = player
+                    #Note: There are some cases in which if the node and successor are from the same player, a loop occurs when selecting the max/min successor (10->12, 12->10, 10->12, etc..).
+                    #This for is to avoid this kind of loop. So if the successor is of the same player and the assigned parity is already larger of the found one, avoid updating the parity.
+                    if node in G.player0_nodes and parities[node] > node_parity:
+                        pass
+                    else:
+                        parities[node] = node_parity
+                        has_changed = True
+
+        player = 1 if player == 0 else 0 # Change player at each iteration
+
+        if not has_changed:
+            break
+
+    return strategy
+
+def solve_parity_strategy_improvement_par(G):
+    parities = {node: node for node in G.graph.nodes} # Assign a priority to each node
+    strategy = {node: -1 for node in G.graph.nodes} # Initialize the strategy of each node with -1
+
+    while True: # Running until the parities change
+        has_changed = False
+        for node in G.graph.nodes:
+            successors = list(G.graph.successors(node))
+            if successors: #If there are successors
+                successor_parities = [parities[successor] for successor in successors] # Calculate the parity of the successors
+                node_parity = max(successor_parities) if node in G.player0_nodes else min(successor_parities) # Select the max parity
+
                 # If the parity of the node is different from the max successor parity
                 # update the parity of the node
                 if parities[node] != node_parity:
-                    strategy[node] = player
-                    parities[node] = node_parity
-                    has_changed = True
-
-        player = 1 if player == 0 else 0 # Change player at each iteration
+                    print(parities[node], node_parity)
+                    strategy[node] = 0 if node in G.player0_nodes else 1
+                    #Note: There are some cases in which if the node and successor are from the same player, a loop occurs when selecting the max/min successor (10->12, 12->10, 10->12, etc..).
+                    #This for is to avoid this kind of loop. So if the successor is of the same player and the assigned parity is already larger of the found one, avoid updating the parity.
+                    if (node in G.player0_nodes and parities[node] > node_parity) or (node in G.player1_nodes and parities[node] < node_parity):
+                        pass
+                    else:
+                        parities[node] = node_parity
+                        has_changed = True
 
         if not has_changed:
             break
