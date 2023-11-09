@@ -9,7 +9,6 @@ def parity_game(n_nodes=15):
     print("Winning regions strategy improvement (parallelized): " + str(strategy_sip))
     strategy_zi = solve_parity_zielonka(G)
     print("Winning strategy Zielonka: " + str(strategy_zi))
-    #G.visualize_graph()
 
     diff1 = find_differences(strategy_si, strategy_sip)
     print("Differences among the strategy improvement approches: " + str(diff1))
@@ -17,6 +16,8 @@ def parity_game(n_nodes=15):
     print("Differences among the standard strategy improvement and zielonka: " + str(diff2))
     diff3 = find_differences(strategy_si, strategy_sip)
     print("Differences among the zielonka and the strategy improvement parallelized: " + str(diff3))
+
+    G.visualize_graph()
 
 def solve_parity_strategy_improvement(G):
     parities = {node: node for node in G.graph.nodes} # Assign a priority to each node
@@ -42,6 +43,8 @@ def solve_parity_strategy_improvement(G):
                     else:
                         parities[node] = node_parity
                         has_changed = True
+            else:
+                strategy = player
 
         player = 1 if player == 0 else 0 # Change player at each iteration
 
@@ -65,7 +68,7 @@ def solve_parity_strategy_improvement_par(G):
                 # If the parity of the node is different from the max successor parity
                 # update the parity of the node
                 if parities[node] != node_parity:
-                    print(parities[node], node_parity)
+                    #print(parities[node], node_parity)
                     strategy[node] = 0 if node in G.player0_nodes else 1
                     #Note: There are some cases in which if the node and successor are from the same player, a loop occurs when selecting the max/min successor (10->12, 12->10, 10->12, etc..).
                     #This for is to avoid this kind of loop. So if the successor is of the same player and the assigned parity is already larger of the found one, avoid updating the parity.
@@ -74,6 +77,8 @@ def solve_parity_strategy_improvement_par(G):
                     else:
                         parities[node] = node_parity
                         has_changed = True
+            else:
+                strategy[node] = 0 if node in G.player0_nodes else 1
 
         if not has_changed:
             break
