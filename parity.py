@@ -3,7 +3,6 @@ import networkx as nx
 
 def parity_game(n_nodes=15):
     G = gc.Graph(n_nodes, mode='parity') # Create graph
-    G.visualize_graph()
     strategy_si = solve_parity_strategy_improvement(G)
     print("Winning regions strategy improvement: " + str(strategy_si))
     strategy_sip = solve_parity_strategy_improvement_par(G)
