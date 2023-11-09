@@ -2,12 +2,12 @@ import graph_creation as gc
 import networkx as nx
 
 def parity_game(n_nodes=15):
-    G = gc.Graph(n_nodes) # Create graph
+    G = gc.Graph(n_nodes, mode='parity') # Create graph
     strategy_si = solve_parity_strategy_improvement(G)
     print("Winning regions strategy improvement: " + str(strategy_si))
     strategy_zi = solve_parity_zielonka(G)
     print("Winning strategy Zielonka: " + str(strategy_zi))
-    #G.visualize_graph()
+    G.visualize_graph()
 
     diff = find_differences(strategy_si, strategy_zi)
     print("Differences among the strategies: " + str(diff))

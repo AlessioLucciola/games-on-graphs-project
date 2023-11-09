@@ -4,9 +4,10 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 class Graph():
-    def __init__(self, n_nodes = 10, edge_probability = 0.5):
+    def __init__(self, n_nodes, mode, edge_probability = 0.5):
         super(Graph, self).__init__
         self.graph = nx.DiGraph()
+        self.mode = mode
 
         if (n_nodes < 1):
             raise ValueError("The number of nodes must be a positive number")
@@ -72,8 +73,9 @@ class Graph():
         print("Nodes of player 1: " + str(self.player1_nodes))
 
         # Color the winning node in the graph
-        node_colors = {node: 'red' if node in winning_nodes else 'blue' for node in self.player0_nodes}
-        nx.set_node_attributes(self.graph, node_colors, 'color')
+        if mode == 'reachability':
+            node_colors = {node: 'red' if node in winning_nodes else 'blue' for node in self.player0_nodes}
+            nx.set_node_attributes(self.graph, node_colors, 'color')
 
         # Create a dictionary for labeling the nodes with their numbers
         self.node_labels = {node: str(node) for node in self.graph.nodes}
@@ -84,9 +86,13 @@ class Graph():
 
     def visualize_graph(self):
         pos = nx.spring_layout(self.graph)
-        node_colors = [self.graph.nodes[node]['color'] if 'color' in self.graph.nodes[node] else 'blue' for node in self.player0_nodes]
-        nx.draw_networkx_nodes(self.graph, pos, nodelist=self.player0_nodes, node_shape='s', node_color=node_colors, label='Player 0 (red if winning node, blue otherwise)')
-        nx.draw_networkx_nodes(self.graph, pos, nodelist=self.player1_nodes, node_color='blue', label='Player 1')
+        if self.mode=='reachability':
+            node_colors = [self.graph.nodes[node]['color'] if 'color' in self.graph.nodes[node] else 'blue' for node in self.player0_nodes]
+            nx.draw_networkx_nodes(self.graph, pos, nodelist=self.player0_nodes, node_shape='s', node_color=node_colors, label='Player 0 (red if winning node, blue otherwise)')
+            nx.draw_networkx_nodes(self.graph, pos, nodelist=self.player1_nodes, node_color='blue', label='Player 1')
+        else:
+            nx.draw_networkx_nodes(self.graph, pos, nodelist=self.player0_nodes, node_shape='s', node_color='blue', label='Player 0')
+            nx.draw_networkx_nodes(self.graph, pos, nodelist=self.player1_nodes, node_color='blue', label='Player 1')
         nx.draw_networkx_labels(self.graph, pos, labels=self.node_labels)
         nx.draw_networkx_edges(self.graph, pos)
 

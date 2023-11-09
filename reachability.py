@@ -2,11 +2,11 @@ import graph_creation as gc
 from collections import deque
 
 def reachability_game(n_nodes=10):
-    G = gc.Graph(n_nodes)
+    G = gc.Graph(n_nodes, mode='reachability')
     W = G.get_winning_nodes()
     print("Winning nodes: " + str(W))
     strategy, win_region = solve_reachability(G, W)
-    #G.visualize_graph()
+    G.visualize_graph()
 
 """
     This function takes a direct graph and a set terminal nodes and solve reachability games.
