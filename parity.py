@@ -12,6 +12,7 @@ def parity_game(n_nodes=15):
     diff = find_differences(strategy_si, strategy_zi)
     print("Differences among the strategies: " + str(diff))
 
+#TO DO: TRY TO PARALELIZE THE PLAYER'S STRATEGY IMPROVEMENT (both player could choose a better strategy at each iteration)
 def solve_parity_strategy_improvement(G):
     parities = {node: node for node in G.graph.nodes} # Assign a priority to each node
     strategy = {node: -1 for node in G.graph.nodes} # Initialize the strategy of each node with -1
