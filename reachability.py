@@ -1,8 +1,8 @@
 import graph_creation as gc
 from collections import deque
 
-def reachability_game(n_nodes=10):
-    G = gc.Graph(n_nodes, mode='reachability')
+def reachability_game(n_nodes=20, edge_probability=0.5, n_winning=0.1):
+    G = gc.Graph(n_nodes, edge_probability, n_winning, mode='reachability')
     W = G.get_winning_nodes()
     print("Winning nodes: " + str(W))
     strategy, win_region = solve_reachability(G, W)
