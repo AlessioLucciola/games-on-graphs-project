@@ -69,8 +69,8 @@ class Graph():
                 attributes[n] = {'winning': False}
         nx.set_node_attributes(self.graph, attributes)
 
-        print("Nodes of player 0: " + str(self.player0_nodes))
-        print("Nodes of player 1: " + str(self.player1_nodes))
+        #print("Nodes of player 0: " + str(self.player0_nodes))
+        #print("Nodes of player 1: " + str(self.player1_nodes))
 
         # Color the winning node in the graph
         if mode == 'reachability':

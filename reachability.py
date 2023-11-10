@@ -1,12 +1,16 @@
 import graph_creation as gc
 from collections import deque
 
-def reachability_game(n_nodes=20, edge_probability=0.5, n_winning=0.1):
+def reachability_game(n_nodes=20, edge_probability=0.5, n_winning=0.1, visualize=False, print_info=False):
     G = gc.Graph(n_nodes, edge_probability, n_winning, mode='reachability')
     W = G.get_winning_nodes()
-    print("Winning nodes: " + str(W))
-    strategy, win_region = solve_reachability(G, W)
-    G.visualize_graph()
+    if print_info:
+        print("Winning nodes: " + str(W))
+    strategy, win_region, recursion_count = solve_reachability(G, W, print_info)
+    if visualize:
+        G.visualize_graph()
+    
+    return strategy, win_region, recursion_count
 
 """
     This function takes a direct graph and a set terminal nodes and solve reachability games.
@@ -17,16 +21,18 @@ def reachability_game(n_nodes=20, edge_probability=0.5, n_winning=0.1):
                         if chosen, allows player 0 to stay in the winning region.
     :return: win_region: A list of nodes from which player 0 can force player 1 to a winning node.
 """ 
-def solve_reachability(G, W):
+def solve_reachability(G, W, print_info):
     queue = deque() # Add nodes to be visited yet at execution time
     strategy = {} # Keep track of a possible strategy for player 0 to reach a winning node
     win_region = [w for w in W] # Immediatly set the winning node of player 0 in the winning region
     lose_region = [] # Initialize the losing region as an empty list
+    recursion_count = 0
 
     for w in W: # For each winnining node 
         queue.append(w) # Add a winning node to the queue
     
         while queue:
+            recursion_count += 1  # Increment the recursion count
             n = queue.popleft() #Retrieve the first element from the queue
             for pred in G.get_predecessors(n): # If the predecessor is of player 0 then -> add pred in win_region X
                 #print(str(n) + " " + str(pred))
@@ -43,11 +49,12 @@ def solve_reachability(G, W):
     
     lose_region = [node for node in range(len(G.graph.nodes)) if node not in win_region]
 
-    print("Strategy: " + str(strategy))
-    print("Winning region: " + str(win_region))
-    print("Losing region: " + str(lose_region))
+    if print_info:
+        print("Strategy: " + str(strategy))
+        print("Winning region: " + str(win_region))
+        print("Losing region: " + str(lose_region))
 
-    return(strategy, win_region)
+    return(strategy, win_region, recursion_count)
 
 
 reachability_game()
