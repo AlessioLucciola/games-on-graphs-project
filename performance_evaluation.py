@@ -1,6 +1,5 @@
 from datetime import datetime
 from tqdm import tqdm
-from os import path
 import reachability
 import time
 import json
@@ -11,12 +10,16 @@ def evaluate_reachability(edge_probabilities, n_winnings, n_nodes):
     results = []
 
     for ep, nw, nn in tqdm(all_combinations):
+        print("----Testing the following configuration:----")
+        print(f"Number of nodes: {nn}")
+        print(f"Edge probability among nodes: {ep*100}%")
+        print(f"Number of winning nodes as a percentage of the total nodes: {nw*100}%")
         start_time = time.time()
 
-        _, _, recursion_count = reachability.reachability_game(n_nodes=nn, edge_probability=ep, n_winning=nw)
+        _, _, recursion_count = reachability.reachability_game(n_nodes=nn, edge_probability=ep, n_winning=nw, print_info=False)
 
         time.sleep(1)
-        elapsed_time = (time.time() - start_time) / 60.0
+        elapsed_time = (time.time() - start_time) # In seconds
 
         combination_data = {
             "n_nodes": nn,
@@ -27,22 +30,19 @@ def evaluate_reachability(edge_probabilities, n_winnings, n_nodes):
         }
 
         results.append(combination_data)
+        print("---End of the configuration test---")
     
-    if path.exists("./Evaluations/") == False:
+    if os.path.exists("./Evaluations/") == False:
         os.mkdir("./Evaluations/")
 
     current_datetime = datetime.now()
     current_datetime_str = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
-    with open(f"./Evaluations/evaluation_{current_datetime_str}.json", 'w') as json_file:
+    with open(f"./Evaluations/evaluation_reachability_{current_datetime_str}.json", 'w') as json_file:
         json.dump(results, json_file, indent=2)
 
-#edge_probabilities = [0.02, 0.05, 0.1, 0.2, 0.35, 0.5]
-#n_winnings = [0.05, 0.1, 0.15, 0.2]
-#n_nodes = [10, 50, 100, 1000, 3000, 10000]
-
-edge_probabilities = [0.5]
-n_winnings = [0.2]
-n_nodes = [50]
+edge_probabilities = [0.02, 0.05, 0.1, 0.2, 0.35, 0.5]
+n_winnings = [0.05, 0.1, 0.15, 0.2]
+n_nodes = [10, 50, 100, 1000, 3000, 10000]
 
 evaluate_reachability(edge_probabilities, n_winnings, n_nodes)
 

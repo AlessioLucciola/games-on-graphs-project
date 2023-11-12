@@ -1,0 +1,9 @@
+[
+  {
+    "n_nodes": 10,
+    "edge_probability": 0.02,
+    "n_winning": 0.05,
+    "time": 1.0009069442749023,
+    "recursion_count": 1
+  }
+]

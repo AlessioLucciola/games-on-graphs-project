@@ -80,10 +80,6 @@ class Graph():
         # Create a dictionary for labeling the nodes with their numbers
         self.node_labels = {node: str(node) for node in self.graph.nodes}
 
-        # Define priorities for parity games
-        #for n in self.graph.nodes:
-        #    self.graph.nodes[n]['priority'] = n
-
     def visualize_graph(self):
         pos = nx.spring_layout(self.graph)
         if self.mode=='reachability':
