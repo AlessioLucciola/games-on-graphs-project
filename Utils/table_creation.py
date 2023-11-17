@@ -22,7 +22,7 @@ def create_table(edge_probability, data):
 def upload_and_read_data_jsons(files):
     data_list = []
     for file in files:
-        with open("Evaluations/"+file, 'r') as file:
+        with open("./Evaluations/"+file, 'r') as file:
             data = json.load(file)
             data_list.append(data)
     return data_list
