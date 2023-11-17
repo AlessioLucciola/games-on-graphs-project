@@ -1,0 +1,254 @@
+[
+  {
+    "n_nodes": 10,
+    "edge_probability": 0.02,
+    "n_winning": 0.15,
+    "time": 1.0008785724639893,
+    "recursion_count": 10
+  },
+  {
+    "n_nodes": 50,
+    "edge_probability": 0.02,
+    "n_winning": 0.15,
+    "time": 1.0016367435455322,
+    "recursion_count": 50
+  },
+  {
+    "n_nodes": 100,
+    "edge_probability": 0.02,
+    "n_winning": 0.15,
+    "time": 1.0030810832977295,
+    "recursion_count": 47
+  },
+  {
+    "n_nodes": 1000,
+    "edge_probability": 0.02,
+    "n_winning": 0.15,
+    "time": 1.07535982131958,
+    "recursion_count": 497
+  },
+  {
+    "n_nodes": 3000,
+    "edge_probability": 0.02,
+    "n_winning": 0.15,
+    "time": 1.9413869380950928,
+    "recursion_count": 1513
+  },
+  {
+    "n_nodes": 5000,
+    "edge_probability": 0.02,
+    "n_winning": 0.15,
+    "time": 4.368775129318237,
+    "recursion_count": 2517
+  },
+  {
+    "n_nodes": 10,
+    "edge_probability": 0.05,
+    "n_winning": 0.15,
+    "time": 1.0075933933258057,
+    "recursion_count": 2
+  },
+  {
+    "n_nodes": 50,
+    "edge_probability": 0.05,
+    "n_winning": 0.15,
+    "time": 1.0029315948486328,
+    "recursion_count": 50
+  },
+  {
+    "n_nodes": 100,
+    "edge_probability": 0.05,
+    "n_winning": 0.15,
+    "time": 1.0062851905822754,
+    "recursion_count": 57
+  },
+  {
+    "n_nodes": 1000,
+    "edge_probability": 0.05,
+    "n_winning": 0.15,
+    "time": 1.163475751876831,
+    "recursion_count": 511
+  },
+  {
+    "n_nodes": 3000,
+    "edge_probability": 0.05,
+    "n_winning": 0.15,
+    "time": 2.7621562480926514,
+    "recursion_count": 1503
+  },
+  {
+    "n_nodes": 5000,
+    "edge_probability": 0.05,
+    "n_winning": 0.15,
+    "time": 8.124551057815552,
+    "recursion_count": 2501
+  },
+  {
+    "n_nodes": 10,
+    "edge_probability": 0.1,
+    "n_winning": 0.15,
+    "time": 1.0110325813293457,
+    "recursion_count": 2
+  },
+  {
+    "n_nodes": 50,
+    "edge_probability": 0.1,
+    "n_winning": 0.15,
+    "time": 1.0008492469787598,
+    "recursion_count": 41
+  },
+  {
+    "n_nodes": 100,
+    "edge_probability": 0.1,
+    "n_winning": 0.15,
+    "time": 1.0092146396636963,
+    "recursion_count": 55
+  },
+  {
+    "n_nodes": 1000,
+    "edge_probability": 0.1,
+    "n_winning": 0.15,
+    "time": 1.217904806137085,
+    "recursion_count": 497
+  },
+  {
+    "n_nodes": 3000,
+    "edge_probability": 0.1,
+    "n_winning": 0.15,
+    "time": 4.3525824546813965,
+    "recursion_count": 1502
+  },
+  {
+    "n_nodes": 5000,
+    "edge_probability": 0.1,
+    "n_winning": 0.15,
+    "time": 14.784668922424316,
+    "recursion_count": 2507
+  },
+  {
+    "n_nodes": 10,
+    "edge_probability": 0.2,
+    "n_winning": 0.15,
+    "time": 1.0115830898284912,
+    "recursion_count": 10
+  },
+  {
+    "n_nodes": 50,
+    "edge_probability": 0.2,
+    "n_winning": 0.15,
+    "time": 1.0039997100830078,
+    "recursion_count": 22
+  },
+  {
+    "n_nodes": 100,
+    "edge_probability": 0.2,
+    "n_winning": 0.15,
+    "time": 1.0128276348114014,
+    "recursion_count": 45
+  },
+  {
+    "n_nodes": 1000,
+    "edge_probability": 0.2,
+    "n_winning": 0.15,
+    "time": 1.368539810180664,
+    "recursion_count": 493
+  },
+  {
+    "n_nodes": 3000,
+    "edge_probability": 0.2,
+    "n_winning": 0.15,
+    "time": 7.7420079708099365,
+    "recursion_count": 1502
+  },
+  {
+    "n_nodes": 5000,
+    "edge_probability": 0.2,
+    "n_winning": 0.15,
+    "time": 28.60048747062683,
+    "recursion_count": 2499
+  },
+  {
+    "n_nodes": 10,
+    "edge_probability": 0.35,
+    "n_winning": 0.15,
+    "time": 1.0374751091003418,
+    "recursion_count": 10
+  },
+  {
+    "n_nodes": 50,
+    "edge_probability": 0.35,
+    "n_winning": 0.15,
+    "time": 1.0024621486663818,
+    "recursion_count": 25
+  },
+  {
+    "n_nodes": 100,
+    "edge_probability": 0.35,
+    "n_winning": 0.15,
+    "time": 1.0171544551849365,
+    "recursion_count": 45
+  },
+  {
+    "n_nodes": 1000,
+    "edge_probability": 0.35,
+    "n_winning": 0.15,
+    "time": 1.6592261791229248,
+    "recursion_count": 500
+  },
+  {
+    "n_nodes": 3000,
+    "edge_probability": 0.35,
+    "n_winning": 0.15,
+    "time": 13.174067497253418,
+    "recursion_count": 1498
+  },
+  {
+    "n_nodes": 5000,
+    "edge_probability": 0.35,
+    "n_winning": 0.15,
+    "time": 52.204238176345825,
+    "recursion_count": 2496
+  },
+  {
+    "n_nodes": 10,
+    "edge_probability": 0.5,
+    "n_winning": 0.15,
+    "time": 1.0245726108551025,
+    "recursion_count": 1
+  },
+  {
+    "n_nodes": 50,
+    "edge_probability": 0.5,
+    "n_winning": 0.15,
+    "time": 1.0016491413116455,
+    "recursion_count": 27
+  },
+  {
+    "n_nodes": 100,
+    "edge_probability": 0.5,
+    "n_winning": 0.15,
+    "time": 1.0049679279327393,
+    "recursion_count": 49
+  },
+  {
+    "n_nodes": 1000,
+    "edge_probability": 0.5,
+    "n_winning": 0.15,
+    "time": 1.9149184226989746,
+    "recursion_count": 498
+  },
+  {
+    "n_nodes": 3000,
+    "edge_probability": 0.5,
+    "n_winning": 0.15,
+    "time": 19.480862140655518,
+    "recursion_count": 1501
+  },
+  {
+    "n_nodes": 5000,
+    "edge_probability": 0.5,
+    "n_winning": 0.15,
+    "time": 79.03764486312866,
+    "recursion_count": 2499
+  }
+]

@@ -41,10 +41,12 @@ def evaluate_reachability(edge_probabilities, n_winnings, n_nodes):
         json.dump(results, json_file, indent=2)
 
 edge_probabilities = [0.02, 0.05, 0.1, 0.2, 0.35, 0.5]
-n_winnings = [0.05, 0.1, 0.15, 0.2]
-n_nodes = [10, 50, 100, 1000, 3000, 10000]
+#n_winnings = [0.05, 0.1, 0.15, 0.2]
+n_winnings = [0.15]
+n_nodes = [10, 50, 100, 1000, 3000, 5000]
 
-evaluate_reachability(edge_probabilities, n_winnings, n_nodes)
+for i in tqdm(range(20)):
+    evaluate_reachability(edge_probabilities, n_winnings, n_nodes)
 
 
     
