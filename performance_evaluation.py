@@ -5,6 +5,7 @@ import time
 import json
 import os
 
+# Evaluate the reachability game
 def evaluate_reachability(edge_probabilities, n_winnings, n_nodes):
     all_combinations = [(ep, nw, nn) for ep in edge_probabilities for nw in n_winnings for nn in n_nodes]
     results = []

@@ -1,5 +1,6 @@
 import json
 
+# Create a table in markdown from the results data
 def create_table(edge_probability, data):
     print("{\\begin{longtable}{|c|c|c|c|c|}")
     print("\\hline")
@@ -48,10 +49,7 @@ def extract_data_for_table(files, edge_probability):
         result_list.append([key, time_dict[key], rec_dict[key]])
     return result_list
 
-files = ["evaluation_reachability_2023-11-17_10-32-58.json", "evaluation_reachability_2023-11-17_10-37-14.json", "evaluation_reachability_2023-11-17_10-41-28.json", "evaluation_reachability_2023-11-17_10-45-44.json", "evaluation_reachability_2023-11-17_10-49-59.json", 
-         "evaluation_reachability_2023-11-17_10-54-13.json", "evaluation_reachability_2023-11-17_10-58-28.json", "evaluation_reachability_2023-11-17_11-02-41.json", "evaluation_reachability_2023-11-17_11-07-00.json", "evaluation_reachability_2023-11-17_11-11-23.json",
-         "evaluation_reachability_2023-11-17_11-15-47.json", "evaluation_reachability_2023-11-17_11-20-11.json", "evaluation_reachability_2023-11-17_11-24-36.json", "evaluation_reachability_2023-11-17_11-29-01.json", "evaluation_reachability_2023-11-17_11-33-26.json",
-         "evaluation_reachability_2023-11-17_11-37-50.json", "evaluation_reachability_2023-11-17_11-42-15.json", "evaluation_reachability_2023-11-17_11-46-37.json", "evaluation_reachability_2023-11-17_11-51-00.json", "evaluation_reachability_2023-11-17_11-55-23.json"]
+files = ["evaluation_reachability_2023-11-17_10-32-58.json"]
 edge_probability = 0.5
 data = extract_data_for_table(files, edge_probability)
 create_table(edge_probability, data)

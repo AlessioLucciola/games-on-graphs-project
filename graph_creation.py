@@ -3,6 +3,7 @@ import random
 import networkx as nx
 import matplotlib.pyplot as plt
 
+# Class that creates a graph with a given number of nodes, edge probability and percentage of winning nodes
 class Graph():
     def __init__(self, n_nodes, edge_probability, n_winning, mode):
         super(Graph, self).__init__
@@ -68,9 +69,6 @@ class Graph():
             else:
                 attributes[n] = {'winning': False}
         nx.set_node_attributes(self.graph, attributes)
-
-        #print("Nodes of player 0: " + str(self.player0_nodes))
-        #print("Nodes of player 1: " + str(self.player1_nodes))
 
         # Color the winning node in the graph
         if mode == 'reachability':
